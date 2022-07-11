@@ -51,7 +51,7 @@ def show_all_pokemons(request):
         pokemons_on_page.append({
             'pokemon_id': pokemon.id,
             'img_url': pokemon.image.url,
-            'title_ru': pokemon.title,
+            'title_ru': pokemon.title_ru,
         })
     return render(request, 'mainpage.html', context={
         'map': folium_map._repr_html_(),
@@ -68,8 +68,12 @@ def show_pokemon(request, pokemon_id):
     if finded_pokemons:
         pokemon = {
             'img_url': finded_pokemons[0].pokemon.image.url,
-            'title_ru': finded_pokemons[0].pokemon.title,
+            'title_ru': finded_pokemons[0].pokemon.title_ru,
+            'title_en': finded_pokemons[0].pokemon.title_en,
+            'title_jp': finded_pokemons[0].pokemon.title_jp,
+            'description': finded_pokemons[0].pokemon.description,
         }
+        print(pokemon)
     else:
         return HttpResponseNotFound('<h1>Такой покемон не найден</h1>')
 
