@@ -65,6 +65,8 @@ def show_pokemon(request, pokemon_id):
         appeared_at__lt=timezone.now()
     )
     if finded_pokemons:
+        previous_evolution = finded_pokemons[0].pokemon.evolutions.all()
+        next_evolution = finded_pokemons[0].pokemon.evolution
         pokemon = {
             'img_url': finded_pokemons[0].pokemon.image.url,
             'title_ru': finded_pokemons[0].pokemon.title_ru,
@@ -72,11 +74,17 @@ def show_pokemon(request, pokemon_id):
             'title_jp': finded_pokemons[0].pokemon.title_jp,
             'description': finded_pokemons[0].pokemon.description,
         }
-        if finded_pokemons[0].pokemon.id == 2:
+        if next_evolution:
+            pokemon['next_evolution'] = {
+                'title_ru': next_evolution.title_ru,
+                'pokemon_id': next_evolution.id,
+                'img_url': next_evolution.image.url,
+        }
+        if previous_evolution:
             pokemon['previous_evolution'] = {
-                'title_ru': finded_pokemons[0].pokemon.evolution.title_ru,
-                'pokemon_id': finded_pokemons[0].pokemon.evolution.id,
-                'img_url': finded_pokemons[0].pokemon.evolution.image.url,
+                'title_ru': previous_evolution[0].title_ru,
+                'pokemon_id': previous_evolution[0].id ,
+                'img_url': previous_evolution[0].image.url
             }
     else:
         return HttpResponseNotFound('<h1>Такой покемон не найден</h1>')
@@ -92,3 +100,4 @@ def show_pokemon(request, pokemon_id):
     return render(request, 'pokemon.html', context={
         'map': folium_map._repr_html_(), 'pokemon': pokemon,
     })
+
