@@ -19,7 +19,7 @@ class Pokemon(models.Model):
     )
     
     class Meta:
-        verbose_name = "Рокемон"
+        verbose_name = "Покемон"
         verbose_name_plural = "Покемоны"
     
     def __str__(self):
@@ -45,7 +45,7 @@ class PokemonEntity(models.Model):
     stamina = models.IntegerField(default=None)
     
     class Meta:
-        verbose_name = "Рокемон на карте"
+        verbose_name = "Покемон на карте"
         verbose_name_plural = "Покемоны на карте"
     
     def __str__(self):
