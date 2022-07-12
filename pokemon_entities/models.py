@@ -31,18 +31,17 @@ class PokemonEntity(models.Model):
     pokemon = models.ForeignKey(
     Pokemon,
     verbose_name="Вид покемона",
-    on_delete=models.CASCADE, 
-    blank=True
+    on_delete=models.CASCADE,
     )
     lat = models.FloatField()
     lon = models.FloatField()
-    appeared_at = models.DateTimeField(default=None)
-    disappeared_at = models.DateTimeField(default=None)
-    level = models.IntegerField(default=None)
-    health = models.IntegerField(default=None)
-    strength = models.IntegerField(default=None)
-    defence = models.IntegerField(default=None)
-    stamina = models.IntegerField(default=None)
+    appeared_at = models.DateTimeField()
+    disappeared_at = models.DateTimeField()
+    level = models.IntegerField()
+    health = models.IntegerField()
+    strength = models.IntegerField()
+    defence = models.IntegerField()
+    stamina = models.IntegerField()
     
     class Meta:
         verbose_name = "Покемон на карте"
