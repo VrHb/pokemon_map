@@ -1,7 +1,6 @@
 import folium
-import json
 
-from django.http import HttpResponseNotFound, HttpRequest
+from django.http import HttpResponseNotFound
 from django.shortcuts import render
 from django.utils import timezone
 
@@ -73,7 +72,12 @@ def show_pokemon(request, pokemon_id):
             'title_jp': finded_pokemons[0].pokemon.title_jp,
             'description': finded_pokemons[0].pokemon.description,
         }
-        print(pokemon)
+        if finded_pokemons[0].pokemon.id == 2:
+            pokemon['previous_evolution'] = {
+                'title_ru': finded_pokemons[0].pokemon.evolution.title_ru,
+                'pokemon_id': finded_pokemons[0].pokemon.evolution.id,
+                'img_url': finded_pokemons[0].pokemon.evolution.image.url,
+            }
     else:
         return HttpResponseNotFound('<h1>Такой покемон не найден</h1>')
 
