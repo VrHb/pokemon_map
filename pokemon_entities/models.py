@@ -18,17 +18,21 @@ class Pokemon(models.Model):
         null=True,
     )
     
+    class Meta:
+        verbose_name = "Рокемон"
+        verbose_name_plural = "Покемоны"
+    
     def __str__(self):
         return f"{self.title_ru}"
 
 
 class PokemonEntity(models.Model):
-    """Рокемон на карте"""
+    """Покемоны на карте"""
     pokemon = models.ForeignKey(
-        Pokemon,
-        verbose_name="Вид покемона",
-        on_delete=models.CASCADE, 
-        blank=True
+    Pokemon,
+    verbose_name="Вид покемона",
+    on_delete=models.CASCADE, 
+    blank=True
     )
     lat = models.FloatField()
     lon = models.FloatField()
@@ -39,4 +43,11 @@ class PokemonEntity(models.Model):
     strength = models.IntegerField(default=None)
     defence = models.IntegerField(default=None)
     stamina = models.IntegerField(default=None)
+    
+    class Meta:
+        verbose_name = "Рокемон на карте"
+        verbose_name_plural = "Покемоны на карте"
+    
+    def __str__(self):
+        return f"{self.pokemon.title_ru} {self.pokemon.id}"
 
