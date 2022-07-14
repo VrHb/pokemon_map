@@ -9,10 +9,10 @@ class Pokemon(models.Model):
     title_jp = models.CharField(max_length=200, blank=True)
     image = models.ImageField(null=True) 
     description = models.TextField(blank=True) 
-    pokemon = models.ForeignKey(
+    next_evolution = models.ForeignKey(
         "self",
         verbose_name="Эволюция покемона", 
-        related_name="evolutions",
+        related_name="previous_evolution",
         on_delete=models.CASCADE,
         blank=True,
         null=True,
@@ -31,6 +31,7 @@ class PokemonEntity(models.Model):
     pokemon = models.ForeignKey(
     Pokemon,
     verbose_name="Вид покемона",
+    related_name="pokemons",
     on_delete=models.CASCADE,
     )
     lat = models.FloatField()
