@@ -32,12 +32,12 @@ def add_pokemon(folium_map, lat, lon, image_url=DEFAULT_IMAGE_URL):
 
 
 def show_all_pokemons(request):
-    pokemons = PokemonEntity.objects.filter(
+    pokemons_on_map = PokemonEntity.objects.filter(
         disappeared_at__gt=timezone.now(),
         appeared_at__lt=timezone.now()
     )
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
-    for pokemon in pokemons:
+    for pokemon in pokemons_on_map:
         add_pokemon(
             folium_map, pokemon.lat,
             pokemon.lon,
@@ -59,20 +59,20 @@ def show_all_pokemons(request):
 
 
 def show_pokemon(request, pokemon_id):
-    finded_pokemons = PokemonEntity.objects.filter(
+    pokemons_on_map = PokemonEntity.objects.filter(
         pokemon__id=pokemon_id,
         disappeared_at__gt=timezone.now(),
         appeared_at__lt=timezone.now()
     )
-    if finded_pokemons:
-        previous_pokemon_evolution = finded_pokemons[0].pokemon.evolutions.all()
-        next_pokemon_evolution = finded_pokemons[0].pokemon.evolution
+    if pokemons_on_map:
+        previous_pokemon_evolution = pokemons_on_map[0].pokemon.evolutions.all()
+        next_pokemon_evolution = pokemons_on_map[0].pokemon.evolution
         pokemon = {
-            'img_url': finded_pokemons[0].pokemon.image.url,
-            'title_ru': finded_pokemons[0].pokemon.title_ru,
-            'title_en': finded_pokemons[0].pokemon.title_en,
-            'title_jp': finded_pokemons[0].pokemon.title_jp,
-            'description': finded_pokemons[0].pokemon.description,
+            'img_url': pokemons_on_map[0].pokemon.image.url,
+            'title_ru': pokemons_on_map[0].pokemon.title_ru,
+            'title_en': pokemons_on_map[0].pokemon.title_en,
+            'title_jp': pokemons_on_map[0].pokemon.title_jp,
+            'description': pokemons_on_map[0].pokemon.description,
         }
         if next_pokemon_evolution:
             pokemon['next_evolution'] = {
@@ -90,7 +90,7 @@ def show_pokemon(request, pokemon_id):
         return HttpResponseNotFound('<h1>Такой покемон не найден</h1>')
 
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
-    for pokemon_entity in finded_pokemons:
+    for pokemon_entity in pokemons_on_map:
         add_pokemon(
             folium_map, pokemon_entity.lat,
             pokemon_entity.lon,
