@@ -59,7 +59,7 @@ def show_all_pokemons(request):
 
 
 def show_pokemon(request, pokemon_id):
-    pokemon = Pokemon.objects.get(pk=pokemon_id)
+    pokemon = Pokemon.objects.filter(pk=pokemon_id).first()
     pokemons_on_map = pokemon.pokemons.filter(
         disappeared_at__gt=timezone.now(),
         appeared_at__lt=timezone.now()
