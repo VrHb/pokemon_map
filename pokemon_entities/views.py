@@ -59,20 +59,20 @@ def show_all_pokemons(request):
 
 
 def show_pokemon(request, pokemon_id):
-    pokemons_on_map = PokemonEntity.objects.filter(
-        pokemon__id=pokemon_id,
+    pokemon = Pokemon.objects.get(pk=pokemon_id)
+    pokemons_on_map = pokemon.pokemons.filter(
         disappeared_at__gt=timezone.now(),
         appeared_at__lt=timezone.now()
     )
     if pokemons_on_map:
-        previous_pokemon_evolution = pokemons_on_map[0].pokemon.evolutions.all()
-        next_pokemon_evolution = pokemons_on_map[0].pokemon.evolution
+        previous_pokemon_evolution = pokemon.previous_evolution.first()
+        next_pokemon_evolution = pokemon.next_evolution
         pokemon = {
-            'img_url': pokemons_on_map[0].pokemon.image.url,
-            'title_ru': pokemons_on_map[0].pokemon.title_ru,
-            'title_en': pokemons_on_map[0].pokemon.title_en,
-            'title_jp': pokemons_on_map[0].pokemon.title_jp,
-            'description': pokemons_on_map[0].pokemon.description,
+            'img_url': pokemon.image.url,
+            'title_ru': pokemon.title_ru,
+            'title_en': pokemon.title_en,
+            'title_jp': pokemon.title_jp,
+            'description': pokemon.description,
         }
         if next_pokemon_evolution:
             pokemon['next_evolution'] = {
@@ -82,9 +82,9 @@ def show_pokemon(request, pokemon_id):
             }
         if previous_pokemon_evolution:
             pokemon['previous_evolution'] = {
-                'title_ru': previous_pokemon_evolution[0].title_ru,
-                'pokemon_id': previous_pokemon_evolution[0].id,
-                'img_url': previous_pokemon_evolution[0].image.url
+                'title_ru': previous_pokemon_evolution.title_ru,
+                'pokemon_id': previous_pokemon_evolution.id,
+                'img_url': previous_pokemon_evolution.image.url
             }
     else:
         return HttpResponseNotFound('<h1>Такой покемон не найден</h1>')
