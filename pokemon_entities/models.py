@@ -65,4 +65,4 @@ class PokemonEntity(models.Model):
         verbose_name_plural = "Покемоны на карте"
 
     def __str__(self):
-        return f"{self.id}. {self.pokemon.title_ru} - {self.pokemon.id}"
+        return f"{self.pokemon.title_ru}"
