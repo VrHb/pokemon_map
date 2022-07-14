@@ -9,7 +9,7 @@ class Pokemon(models.Model):
     title_jp = models.CharField(max_length=200, blank=True)
     image = models.ImageField(null=True) 
     description = models.TextField(blank=True) 
-    evolution = models.ForeignKey(
+    pokemon = models.ForeignKey(
         "self",
         verbose_name="Эволюция покемона", 
         related_name="evolutions",
