@@ -4,14 +4,31 @@ from django.db import models
 
 class Pokemon(models.Model):
     """Вид покемона"""
-    title_ru = models.CharField(max_length=200)
-    title_en = models.CharField(max_length=200, blank=True)
-    title_jp = models.CharField(max_length=200, blank=True)
-    image = models.ImageField(null=True) 
-    description = models.TextField(blank=True) 
+    title_ru = models.CharField(
+        max_length=200, 
+        verbose_name="Название на русском"
+    )
+    title_en = models.CharField(
+        max_length=200, 
+        blank=True, 
+        verbose_name="Название на английском"
+    )
+    title_jp = models.CharField(
+        max_length=200, 
+        blank=True, 
+        verbose_name="Название на японском"
+    )
+    image = models.ImageField(
+        null=True, 
+        verbose_name="Картинка"
+    ) 
+    description = models.TextField(
+        blank=True,
+        verbose_name="Описание покемона"
+    ) 
     next_evolution = models.ForeignKey(
         "self",
-        verbose_name="Эволюция покемона", 
+        verbose_name="В кого эволюционирует", 
         related_name="previous_evolution",
         on_delete=models.CASCADE,
         blank=True,
@@ -34,15 +51,15 @@ class PokemonEntity(models.Model):
     related_name="pokemons",
     on_delete=models.CASCADE,
     )
-    lat = models.FloatField()
-    lon = models.FloatField()
-    appeared_at = models.DateTimeField()
-    disappeared_at = models.DateTimeField()
-    level = models.IntegerField()
-    health = models.IntegerField()
-    strength = models.IntegerField()
-    defence = models.IntegerField()
-    stamina = models.IntegerField()
+    lat = models.FloatField(verbose_name='Широта')
+    lon = models.FloatField(verbose_name='Долгота')
+    appeared_at = models.DateTimeField(verbose_name='Время появления')
+    disappeared_at = models.DateTimeField(verbose_name='Время исчезновения')
+    level = models.IntegerField(verbose_name='Уровень развития')
+    health = models.IntegerField(verbose_name='Здоровье')
+    strength = models.IntegerField(verbose_name='Сила')
+    defence = models.IntegerField(verbose_name='Защита')
+    stamina = models.IntegerField(verbose_name='Выносливость')
     
     class Meta:
         verbose_name = "Покемон на карте"
