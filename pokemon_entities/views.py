@@ -45,7 +45,7 @@ def show_all_pokemons(request):
         )
 
     pokemons = Pokemon.objects.all()
-    pokemons_on_page = [] 
+    pokemons_on_page = []
     for pokemon in pokemons:
         pokemons_on_page.append({
             'pokemon_id': pokemon.id,
@@ -78,12 +78,12 @@ def show_pokemon(request, pokemon_id):
             pokemon['next_evolution'] = {
                 'title_ru': next_pokemon_evolution.title_ru,
                 'pokemon_id': next_pokemon_evolution.id,
-                'img_url': next_pokemon_evolution.image.url,
-        }
+                'img_url': next_pokemon_evolution.image.url
+            }
         if previous_pokemon_evolution:
             pokemon['previous_evolution'] = {
                 'title_ru': previous_pokemon_evolution[0].title_ru,
-                'pokemon_id': previous_pokemon_evolution[0].id ,
+                'pokemon_id': previous_pokemon_evolution[0].id,
                 'img_url': previous_pokemon_evolution[0].image.url
             }
     else:
@@ -94,10 +94,11 @@ def show_pokemon(request, pokemon_id):
         add_pokemon(
             folium_map, pokemon_entity.lat,
             pokemon_entity.lon,
-            image_url=request.build_absolute_uri(pokemon_entity.pokemon.image.url)
+            image_url=request.build_absolute_uri(
+                pokemon_entity.pokemon.image.url
+            )
         )
 
     return render(request, 'pokemon.html', context={
         'map': folium_map._repr_html_(), 'pokemon': pokemon,
     })
-
