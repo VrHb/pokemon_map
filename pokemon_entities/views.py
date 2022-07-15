@@ -64,31 +64,29 @@ def show_pokemon(request, pokemon_id):
         disappeared_at__gt=timezone.now(),
         appeared_at__lt=timezone.now()
     )
-    if pokemons_on_map:
-        previous_pokemon_evolution = pokemon.previous_evolution
-        next_pokemon_evolution = pokemon.next_evolutions.first()
-        pokemon = {
-            'img_url': pokemon.image.url,
-            'title_ru': pokemon.title_ru,
-            'title_en': pokemon.title_en,
-            'title_jp': pokemon.title_jp,
-            'description': pokemon.description,
-        }
-        if next_pokemon_evolution:
-            pokemon['next_evolution'] = {
-                'title_ru': next_pokemon_evolution.title_ru,
-                'pokemon_id': next_pokemon_evolution.id,
-                'img_url': next_pokemon_evolution.image.url
-            }
-        if previous_pokemon_evolution:
-            pokemon['previous_evolution'] = {
-                'title_ru': previous_pokemon_evolution.title_ru,
-                'pokemon_id': previous_pokemon_evolution.id,
-                'img_url': previous_pokemon_evolution.image.url
-            }
-    else:
+    if not pokemons_on_map:
         return HttpResponseNotFound('<h1>Такой покемон не найден</h1>')
-
+    previous_pokemon_evolution = pokemon.previous_evolution
+    next_pokemon_evolution = pokemon.next_evolutions.first()
+    pokemon = {
+        'img_url': pokemon.image.url,
+        'title_ru': pokemon.title_ru,
+        'title_en': pokemon.title_en,
+        'title_jp': pokemon.title_jp,
+        'description': pokemon.description,
+    }
+    if next_pokemon_evolution:
+        pokemon['next_evolution'] = {
+            'title_ru': next_pokemon_evolution.title_ru,
+            'pokemon_id': next_pokemon_evolution.id,
+            'img_url': next_pokemon_evolution.image.url
+        }
+    if previous_pokemon_evolution:
+        pokemon['previous_evolution'] = {
+            'title_ru': previous_pokemon_evolution.title_ru,
+            'pokemon_id': previous_pokemon_evolution.id,
+            'img_url': previous_pokemon_evolution.image.url
+        }
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
     for pokemon_entity in pokemons_on_map:
         add_pokemon(
