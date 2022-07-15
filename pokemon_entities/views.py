@@ -65,8 +65,8 @@ def show_pokemon(request, pokemon_id):
         appeared_at__lt=timezone.now()
     )
     if pokemons_on_map:
-        previous_pokemon_evolution = pokemon.previous_evolution.first()
-        next_pokemon_evolution = pokemon.next_evolution
+        previous_pokemon_evolution = pokemon.previous_evolution
+        next_pokemon_evolution = pokemon.next_evolutions.first()
         pokemon = {
             'img_url': pokemon.image.url,
             'title_ru': pokemon.title_ru,

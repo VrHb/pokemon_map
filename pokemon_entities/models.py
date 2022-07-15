@@ -25,10 +25,10 @@ class Pokemon(models.Model):
         blank=True,
         verbose_name="Описание покемона"
     )
-    next_evolution = models.ForeignKey(
+    previous_evolution = models.ForeignKey(
         "self",
-        verbose_name="В кого эволюционирует",
-        related_name="previous_evolution",
+        verbose_name="Из кого эволюционировал",
+        related_name="next_evolutions",
         on_delete=models.CASCADE,
         blank=True,
         null=True,
