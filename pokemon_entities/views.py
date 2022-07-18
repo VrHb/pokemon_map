@@ -1,7 +1,7 @@
 import folium
 
 from django.http import HttpResponseNotFound
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 
 from .models import Pokemon, PokemonEntity
@@ -59,7 +59,7 @@ def show_all_pokemons(request):
 
 
 def show_pokemon(request, pokemon_id):
-    pokemon = Pokemon.objects.filter(pk=pokemon_id).first()
+    pokemon = get_object_or_404(Pokemon, pk=pokemon_id)
     pokemons_on_map = pokemon.entities.filter(
         disappeared_at__gt=timezone.now(),
         appeared_at__lt=timezone.now()
